@@ -11,7 +11,7 @@ class Product(models.Model):
     )
 
     name = models.CharField(max_length=50)
-    category = models.CharField(max_length=10, choices=categories)
+    category = models.CharField(max_length=10, choices=categories, db_index=True)
     cost_price = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):

@@ -29,7 +29,7 @@ def create_initial_data(apps, schema_editor):
     ]
 
     start_period = datetime.datetime(2015, 7, 1, tzinfo=timezone.utc)
-    end_period = datetime.datetime(2016, 7, 1, tzinfo=timezone.utc)
+    end_period = datetime.datetime(2016, 6, 30, tzinfo=timezone.utc)
     diff = end_period - start_period
     diff_seconds = (diff.days * 24 * 60 * 60) + diff.seconds
 
@@ -47,7 +47,8 @@ def create_initial_data(apps, schema_editor):
     for _ in range(1000):
         product = random.choice(products)
         random_second = random.randrange(diff_seconds)
-        sale_date = start_period + datetime.timedelta(seconds=random_second)
+        diff_seconds -= 20000  # skew towards newer sales to highlight growth
+        sale_date = end_period - datetime.timedelta(seconds=random_second)
         state_index = bisect(cumulative_weights, random.random() * total)
         Sale.objects.create(
             product=product,
