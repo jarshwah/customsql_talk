@@ -1,0 +1,52 @@
+/* Save this to ~/.jupyter/custom/custom.css */
+
+.rise-enabled .text_cell {
+    font-size: 200%;
+}
+
+.reveal pre {
+    line-height: 1.3em !important;
+    /*
+    display: block;
+    position: relative;
+    width: 90%;
+    margin: 15px auto;
+    text-align: left;
+    font-size: 0.55em;
+    font-family: monospace;
+    word-wrap: break-word;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+    */
+}
+
+.rise-enabled .CodeMirror.cm-s-ipython {
+    font-size: 125%;
+    max-width: 1240px !important;
+    /*
+    -webkit-transition-property: all;
+    transition-property: all;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+    */
+}
+
+.rendered_html td, .rendered_html th {
+    padding: 10px;
+    /*
+    text-align: left;
+    vertical-align: middle;
+    */
+}
+
+.rendered_html pre, .rendered_html code {
+    line-height: 1.1em;
+    /*
+    border: 0;
+    background-color: #fff;
+    color: #000;
+    font-size: 80%;
+    padding: 0px;
+    */
+}
