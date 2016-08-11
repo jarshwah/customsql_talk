@@ -1,0 +1,154 @@
+Title:
+    Hi, I'm Josh. You might know me on the interwebs as jarshwah.
+
+    I work for a company called Engage, here in melbourne, working on call
+    center apps and reporting.
+
+    I write a bunch of SQL at work which led me to authoring a large patch to
+    django which expanded the ability to write custom sql which landed in 1.8. I
+    was invited onto the core team after that.
+
+Recent Developments:
+    There have been a few big features that have landed since 1.7 that
+    allow users to finally get in and modify the SQL that django generates.
+
+Lookups:
+    The __contains here is a lookup. It generates the SQL for a WHERE condition.
+
+    It says find me all the products where the tag array contains both large and
+    jumper. Before 1.7 you were at the mercy of what django offered and what
+    made sense for all backends. Now each backend can define their own lookups
+    and register them on the fields they like.
+
+Transforms:
+    Transforms are very similar to lookups. Here it's __lower. Transforms let you
+    apply a function or conversion to the field before it's compared to the right
+    hand side.
+
+Expressions:
+    Expressions is the feature I contributed to Django. They allow you to use
+    database functions or structures, and combine them in interesting ways.
+
+    Before 1.8 Django wouldn't let you combine aggregates or add non-aggregates
+    to the select list. Since the original patch we've had quite a few people
+    build on these features and expand the scope.
+
+    Here we can see a query that's aggregating sales by month, which is a pretty
+    standard query you'd write when managing or reporting on sales.
+
+Sales Reporting:
+    Since sales are fairly universal, I've thrown together an app that tracks sales
+    over a set of products. Pretty basic stuff. Group by the product category,
+    and calculate the number of sales and revenue.
+
+No Kids:
+    But then your boss comes over and tells you we don't care about childrens
+    clothing. Exclude those sales. Here we use exclude rather than filter because
+    we wan't to take data away. That runs for a week or so.
+
+Web Scale:
+    The DBA and Ops managers aren't happy with your query. Apparently it's
+    inefficient.
+    This is the SQL django generates. See the NOT in the WHERE clause? That's
+    how django excludes data.
+    Django does more work for negated queries because it has to see if a
+    subquery is needed, the correct joins are setup, etc.
+
+NotEqual:
+    Here's our first Lookup. There's a few things going on here. First, we derive
+    from Lookup. We provide a lookup name which is what you end up using in your
+    filter clauses. So this would be __ne.
+
+    The as_sql method is where we turn python into django. We see there's a left
+    and right hand side. The left is the field, the right is what we're comparing
+    it to. We call the various process methods which ends up calling as_sql on
+    each side, then joining it together with our operator.
+
+    Finally we register the lookup on the base field, so it'll be available for
+    all field types.
+
+    And we shave 30 microseconds off the time.
+
+RevByQuarter:
+    Milton doesn't care about categories - he wants to know what we're making.
+
+    But we don't have a way to aggregate dates into quarters. Postgres has the
+    date trunc function, and that takes a quarter argument. Let's write an
+    expression to handle that.
+
+TruncQuarter:
+    Here I've written a Transform - but since transforms are just database
+    functions they can be reused for aggregation and grouping too.
+
+    The minimum we need to provide is a function name and a lookup name. I'm
+    also modifying the template to hardcode the quarter argument. I've overriding
+    init here to provide a default output_field, which is the django field type
+    to load data into. We'll register this against the date and time fields.
+
+    We can keep overriding functions to provide more functionality. Here's a super
+    simple converter to get back to the python type we're expecting if the adapter
+    hasn't done all the work.
+
+    The as_sqlite method will be called instead of as_sql if the backend being
+    used is sqlite. This is how you support different backends without modifying
+    each backend individually.
+
+    Resolve Expression is a key part of the API but most of the time you won't
+    need to worry about it. Here we're just doing some input validation. It's
+    really important to always mutate and return a copy so that you don't mess
+    with other querysets.
+
+Necessary:
+    We haven't built in timezone support so we'll jump on the django IRC channel
+    and ask for some direction. Funkybob will link us to the 1.10 docs and show
+    us the hard work has already been done.. mostly.
+
+    Django 1.10 ships with a bunch of date extract and date trunc functions built
+    in which allows you to skip all the hard stuff.
+
+    Here's our query now. Revenue and sales per quarter. Note that we first have
+    to annotate our function onto the query before we select and group it in
+    values.
+
+Wizz:
+    Boss is impressed. I think he just wants to see if we can.
+
+    We'll need to pivot revenue for a particular group into a column, which we can do with
+    a conditional expression. It's pretty bulky though, and we need two of them.
+
+SUMIF:
+    Excel provides a function called sumif that does exactly this. If a row matches
+    the IF, it'll add the revenue to the total.
+
+    Expressions take other expressions as input, building up a tree of operations.
+    So we can write our own shorter version that combines Sum Case and When into
+    SUMIF!
+
+Altogether:
+    Here's our final query. We're getting the revenue and sales for each quarter,
+    excluding childrens clothing from the total, and showing the Victoria and
+    New South Wales revenue separately.
+
+Hate It!:
+    Forget all of it. The investors want to know about growth.
+
+Growth:
+    If you look at the table you can gauge the growth. If only we could use
+    the revenue from the previous row in the next row to calculate the difference.
+
+Analytics:
+    Postgres ships with a windowing function called LAG which does exactly that.
+    We generate our quarterly revenue and order it by date. Then we use LAG to
+    reach back a single row so we can calculate the growth!
+
+    There's no way django can generate this kind of query though.
+
+Cursor:
+    We already have the SQL though, let's just execute it. Django will give us
+    a database connection, we can execute the query, and then we fetch the results.
+
+    When you don't need to support different backends and you get some queries
+    that are hard or impossible to write in django, don't feel bad about dropping
+    straight to SQL.
+
+    The ORM is a convenience. You give up speed and power for that convenience.

@@ -11741,6 +11741,60 @@ ul.typeahead-list > li > a {
 .ansi-bold { font-weight: bold; }
 
     </style>
+<style type="text/css">
+    .rise-enabled .text_cell {
+    font-size: 200%;
+
+}
+
+.reveal pre {
+    line-height: 1.3em !important;
+    /*
+    display: block;
+    position: relative;
+    width: 90%;
+    margin: 15px auto;
+    text-align: left;
+    font-size: 0.55em;
+    font-family: monospace;
+    word-wrap: break-word;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+    */
+}
+
+.rise-enabled .CodeMirror.cm-s-ipython {
+    font-size: 125%;
+    max-width: 1240px !important;
+    /*
+    -webkit-transition-property: all;
+    transition-property: all;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+    */
+}
+
+.rendered_html td, .rendered_html th {
+    padding: 10px;
+    /*
+    text-align: left;
+    vertical-align: middle;
+    */
+}
+
+.rendered_html pre, .rendered_html code {
+    line-height: 1.1em;
+    /*
+    border: 0;
+    background-color: #fff;
+    color: #000;
+    font-size: 80%;
+    padding: 0px;
+    */
+}
+
+    </style>
 
 
 <style type="text/css">
@@ -11990,6 +12044,9 @@ a.anchor-link {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="We're-not-interested-in-Kids-products">We're not interested in Kids products<a class="anchor-link" href="#We're-not-interested-in-Kids-products">&#182;</a></h2><hr />
+
+<p><img src="assets/office-space-1.jpg" alt="officespace"></p>
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -12003,7 +12060,7 @@ a.anchor-link {
 
 <span class="c1"># Show sales and revenue per category, but not Kids</span>
 <span class="n">qs</span> <span class="o">=</span> <span class="n">Sale</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span>
-    <span class="n">product__category</span><span class="o">=</span><span class="n">Product</span><span class="o">.</span><span class="n">KIDS</span>
+    <span class="n">product__category</span><span class="o">=</span><span class="s1">&#39;Kids&#39;</span>
 <span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;product__category&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
     <span class="n">sales</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">),</span>
     <span class="n">revenue</span><span class="o">=</span><span class="n">Sum</span><span class="p">(</span><span class="s1">&#39;sale_price&#39;</span><span class="p">)</span>
@@ -12063,9 +12120,12 @@ a.anchor-link {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="WEBSCALE!">WEBSCALE!<a class="anchor-link" href="#WEBSCALE!">&#182;</a></h2><hr>
+
+<p><img src="assets/office-space-2.jpg" alt="webscale"></p>
+
 </div>
 </div>
-</div><div class="fragment">
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -12077,20 +12137,20 @@ a.anchor-link {
 <span class="k">FROM</span> <span class="ss">&quot;shop_sale&quot;</span>
 <span class="k">INNER</span> <span class="k">JOIN</span> <span class="ss">&quot;shop_product&quot;</span> 
 <span class="k">ON</span> <span class="p">(</span><span class="ss">&quot;shop_sale&quot;</span><span class="p">.</span><span class="ss">&quot;product_id&quot;</span> <span class="o">=</span> <span class="ss">&quot;shop_product&quot;</span><span class="p">.</span><span class="ss">&quot;id&quot;</span><span class="p">)</span>
-<span class="k">WHERE</span> <span class="k">NOT</span> <span class="p">(</span><span class="ss">&quot;shop_product&quot;</span><span class="p">.</span><span class="ss">&quot;category&quot;</span> <span class="o">=</span> <span class="n">Kids</span><span class="p">)</span>
+<span class="k">WHERE</span> <span class="k">NOT</span> <span class="p">(</span><span class="ss">&quot;shop_product&quot;</span><span class="p">.</span><span class="ss">&quot;category&quot;</span> <span class="o">=</span> <span class="s1">&#39;Kids&#39;</span><span class="p">)</span>
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="ss">&quot;shop_product&quot;</span><span class="p">.</span><span class="ss">&quot;category&quot;</span>
 </pre></div>
 
 </div>
 </div>
-</div></div><div class="fragment">
+</div><div class="fragment">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>"NOT (condition = value)" vs "condition != value" 5 characters!</li>
+<li>"<code>NOT (condition = value)" vs "condition != value"</code> <strong>5 characters!</strong></li>
 <li>Django has to do a lot more work for (correct) negated conditions</li>
 </ul>
 
@@ -12099,7 +12159,7 @@ a.anchor-link {
 </div></div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">django.db.models</span> <span class="k">import</span> <span class="n">Lookup</span>
@@ -12110,8 +12170,10 @@ a.anchor-link {
     <span class="n">lookup_name</span> <span class="o">=</span> <span class="s1">&#39;ne&#39;</span>
 
     <span class="k">def</span> <span class="nf">as_sql</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compiler</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
-        <span class="n">lhs</span><span class="p">,</span> <span class="n">lhs_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_lhs</span><span class="p">(</span><span class="n">compiler</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
-        <span class="n">rhs</span><span class="p">,</span> <span class="n">rhs_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_rhs</span><span class="p">(</span><span class="n">compiler</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+        <span class="n">lhs</span><span class="p">,</span> <span class="n">lhs_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_lhs</span><span class="p">(</span>
+            <span class="n">compiler</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+        <span class="n">rhs</span><span class="p">,</span> <span class="n">rhs_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_rhs</span><span class="p">(</span>
+            <span class="n">compiler</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">lhs_params</span> <span class="o">+</span> <span class="n">rhs_params</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> != </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">),</span> <span class="n">params</span>
 
@@ -12123,10 +12185,10 @@ a.anchor-link {
 </div>
 </div>
 
-</div><div class="fragment">
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span> -c list(Product.objects.exclude(category=&#39;Kids&#39;))
@@ -12143,8 +12205,8 @@ a.anchor-link {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1000 loops, best of 3: 483 µs per loop
-1000 loops, best of 3: 448 µs per loop
+<pre>1000 loops, best of 3: 480 µs per loop
+1000 loops, best of 3: 453 µs per loop
 </pre>
 </div>
 </div>
@@ -12152,19 +12214,22 @@ a.anchor-link {
 </div>
 </div>
 
-</div></div></section></section><section><section>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Actually,-can-we-see-revenue-by-Quarter?">Actually, can we see revenue by Quarter?<a class="anchor-link" href="#Actually,-can-we-see-revenue-by-Quarter?">&#182;</a></h1><hr />
+
+<p><img src="assets/office-space-3.png" alt="quarter"></p>
+
 </div>
 </div>
 </div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
@@ -12181,18 +12246,30 @@ a.anchor-link {
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">output_field</span><span class="o">=</span><span class="n">DateTimeField</span><span class="p">(),</span> <span class="o">**</span><span class="n">extra</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="n">output_field</span><span class="o">=</span><span class="n">output_field</span><span class="p">,</span> <span class="o">**</span><span class="n">extra</span><span class="p">)</span>
-    
-    <span class="k">def</span> <span class="nf">convert_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
-        <span class="k">if</span> <span class="p">(</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">datetime</span><span class="p">)</span> <span class="ow">and</span>
-             <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_field</span><span class="p">)</span> <span class="o">==</span> <span class="n">DateField</span><span class="p">):</span>
-            <span class="c1"># we asked for a date but got a datetime</span>
-            <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">value</span>
-    
-    <span class="k">def</span> <span class="nf">as_sqlite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compiler</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="s1">&#39;sqlite does not support truncating to Quarter.&#39;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
+            <span class="n">expression</span><span class="p">,</span> <span class="n">output_field</span><span class="o">=</span><span class="n">output_field</span><span class="p">,</span> <span class="o">**</span><span class="n">extra</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">convert_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">datetime</span><span class="p">)</span> <span class="ow">and</span>
+         <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_field</span><span class="p">)</span> <span class="o">==</span> <span class="n">DateField</span><span class="p">):</span>
+        <span class="c1"># we asked for a date but got a datetime</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+<span class="k">def</span> <span class="nf">as_sqlite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compiler</span><span class="p">,</span> <span class="n">connection</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+        <span class="s1">&#39;sqlite does not support truncating to Quarter.&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12215,12 +12292,14 @@ a.anchor-link {
     <span class="n">input_field</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">lhs</span><span class="o">.</span><span class="n">output_field</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_field</span><span class="p">,</span> <span class="p">(</span><span class="n">DateField</span><span class="p">,</span> <span class="n">DateTimeField</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s1">&#39;Input expression must be either DateField or DateTimeField&#39;</span><span class="p">)</span>
+        <span class="s1">&#39;Input expression must be DateField or DateTimeField&#39;</span>
+        <span class="p">)</span>
         
     <span class="n">output_field</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">output_field</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_field</span><span class="p">,</span> <span class="p">(</span><span class="n">DateField</span><span class="p">,</span> <span class="n">DateTimeField</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s1">&#39;output_field must be either DateField or DateTimeField&#39;</span><span class="p">)</span>
+        <span class="s1">&#39;output_field must be DateField or DateTimeField&#39;</span>
+        <span class="p">)</span>
     <span class="k">return</span> <span class="n">copy</span>
 </pre></div>
 
@@ -12237,7 +12316,7 @@ a.anchor-link {
 <h1 id="Was-all-that-necessary?!">Was all that necessary?!<a class="anchor-link" href="#Was-all-that-necessary?!">&#182;</a></h1><hr />
 </div>
 </div>
-</div><div class="fragment">
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
@@ -12248,16 +12327,14 @@ a.anchor-link {
 <span class="kn">from</span> <span class="nn">django.db.models.functions.datetime</span> <span class="k">import</span> <span class="n">TruncBase</span>
 <span class="kn">from</span> <span class="nn">django.utils</span> <span class="k">import</span> <span class="n">timezone</span>
 
-
 <span class="nd">@DateField</span><span class="o">.</span><span class="n">register_lookup</span>
 <span class="nd">@DateTimeField</span><span class="o">.</span><span class="n">register_lookup</span>
 <span class="k">class</span> <span class="nc">TruncQtr</span><span class="p">(</span><span class="n">TruncBase</span><span class="p">):</span>
     <span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;quarter&#39;</span>
     <span class="n">lookup_name</span> <span class="o">=</span> <span class="s1">&#39;qtr&#39;</span>
-    
 
 <span class="n">Sale</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-    <span class="n">product__category__ne</span><span class="o">=</span><span class="n">Product</span><span class="o">.</span><span class="n">KIDS</span><span class="p">,</span>
+    <span class="n">product__category__ne</span><span class="o">=</span><span class="s1">&#39;Kids&#39;</span><span class="p">,</span>
     <span class="n">sale_date__qtr__gte</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2016</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
 <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
 </pre></div>
@@ -12282,7 +12359,7 @@ a.anchor-link {
 </div>
 </div>
 
-</div></div></section></section><section><section>
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
@@ -12292,12 +12369,10 @@ a.anchor-link {
 <span class="kn">from</span> <span class="nn">shop.functions</span> <span class="k">import</span> <span class="n">table</span><span class="p">,</span> <span class="n">TruncQtr</span>
 
 <span class="n">qs</span> <span class="o">=</span> <span class="n">Sale</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-    <span class="n">product__category__ne</span><span class="o">=</span><span class="n">Product</span><span class="o">.</span><span class="n">KIDS</span>
-<span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-    <span class="n">quarter</span><span class="o">=</span><span class="n">TruncQtr</span><span class="p">(</span><span class="s1">&#39;sale_date&#39;</span><span class="p">)</span>
+    <span class="n">product__category__ne</span><span class="o">=</span><span class="s1">&#39;Kids&#39;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">quarter</span><span class="o">=</span><span class="n">TruncQtr</span><span class="p">(</span><span class="s1">&#39;sale_date&#39;</span><span class="p">)</span>
 <span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;quarter&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-    <span class="n">revenue</span><span class="o">=</span><span class="n">Sum</span><span class="p">(</span><span class="s1">&#39;sale_price&#39;</span><span class="p">),</span>
-    <span class="n">sales</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+    <span class="n">revenue</span><span class="o">=</span><span class="n">Sum</span><span class="p">(</span><span class="s1">&#39;sale_price&#39;</span><span class="p">),</span> <span class="n">sales</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
 <span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;quarter&#39;</span><span class="p">)</span>
 
 <span class="n">display</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">qs</span><span class="p">))</span>
@@ -12365,7 +12440,10 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="You're-a-bit-of-a-wizz!">You're a bit of a wizz!<a class="anchor-link" href="#You're-a-bit-of-a-wizz!">&#182;</a></h1><h2 id="Now-break-out-VIC-and-NSW-individually.">Now break out VIC and NSW individually.<a class="anchor-link" href="#Now-break-out-VIC-and-NSW-individually.">&#182;</a></h2>
+<h1 id="You're-a-bit-of-a-wizz!">You're a bit of a wizz!<a class="anchor-link" href="#You're-a-bit-of-a-wizz!">&#182;</a></h1><hr />
+
+<h2 id="Now-break-out-VIC-and-NSW-individually.">Now break out VIC and NSW individually.<a class="anchor-link" href="#Now-break-out-VIC-and-NSW-individually.">&#182;</a></h2><p><img src="assets/office-space-4.jpg" alt="wizz"></p>
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -12408,7 +12486,10 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="That-looks-like-SUMIF">That looks like SUMIF<a class="anchor-link" href="#That-looks-like-SUMIF">&#182;</a></h1><h2 id="We-can-do-better.">We can do better.<a class="anchor-link" href="#We-can-do-better.">&#182;</a></h2>
+<h1 id="That-looks-like-SUMIF">That looks like SUMIF<a class="anchor-link" href="#That-looks-like-SUMIF">&#182;</a></h1><hr />
+
+<h2 id="We-can-do-better.">We can do better.<a class="anchor-link" href="#We-can-do-better.">&#182;</a></h2><p><img src="assets/office-space-5.jpg" alt="sumif"></p>
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -12451,13 +12532,10 @@ a.anchor-link {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span>
 <span class="kn">from</span> <span class="nn">shop.functions</span> <span class="k">import</span> <span class="n">SumIf</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">TruncQtr</span>
 
-<span class="n">qs</span> <span class="o">=</span> <span class="n">Sale</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-    <span class="n">product__category__ne</span><span class="o">=</span><span class="n">Product</span><span class="o">.</span><span class="n">KIDS</span>
-<span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-    <span class="n">quarter</span><span class="o">=</span><span class="n">TruncQtr</span><span class="p">(</span><span class="s1">&#39;sale_date&#39;</span><span class="p">)</span>
+<span class="n">qs</span> <span class="o">=</span> <span class="n">Sale</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product__category__ne</span><span class="o">=</span><span class="s1">&#39;Kids&#39;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">quarter</span><span class="o">=</span><span class="n">TruncQtr</span><span class="p">(</span><span class="s1">&#39;sale_date&#39;</span><span class="p">)</span>
 <span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;quarter&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-    <span class="n">revenue</span><span class="o">=</span><span class="n">Sum</span><span class="p">(</span><span class="s1">&#39;sale_price&#39;</span><span class="p">),</span>
-    <span class="n">sales</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">),</span>
+    <span class="n">revenue</span><span class="o">=</span><span class="n">Sum</span><span class="p">(</span><span class="s1">&#39;sale_price&#39;</span><span class="p">),</span> <span class="n">sales</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">),</span>
     <span class="n">rev_vic</span><span class="o">=</span><span class="n">SumIf</span><span class="p">(</span><span class="s1">&#39;sale_price&#39;</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;VIC&#39;</span><span class="p">),</span>
     <span class="n">rev_nsw</span><span class="o">=</span><span class="n">SumIf</span><span class="p">(</span><span class="s1">&#39;sale_price&#39;</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;NSW&#39;</span><span class="p">)</span>
 <span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;quarter&#39;</span><span class="p">)</span>
@@ -12537,13 +12615,14 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Hate-it!-Throw-it-away.">Hate it! Throw it away.<a class="anchor-link" href="#Hate-it!-Throw-it-away.">&#182;</a></h1><h2 id="Give-me-Quarter-Over-Quarter-growth-instead.">Give me Quarter Over Quarter growth instead.<a class="anchor-link" href="#Give-me-Quarter-Over-Quarter-growth-instead.">&#182;</a></h2><h2 id="That-should-be-easy.">That should be easy.<a class="anchor-link" href="#That-should-be-easy.">&#182;</a></h2>
+<h1 id="Hate-it!-Throw-it-away.">Hate it! Throw it away.<a class="anchor-link" href="#Hate-it!-Throw-it-away.">&#182;</a></h1><h2 id="Give-me-Quarter-Over-Quarter-growth-instead.">Give me Quarter Over Quarter growth instead.<a class="anchor-link" href="#Give-me-Quarter-Over-Quarter-growth-instead.">&#182;</a></h2><h2 id="That-should-be-easy.">That should be easy.<a class="anchor-link" href="#That-should-be-easy.">&#182;</a></h2><p><img src="assets/office-space-6.jpg" alt="startagain"></p>
+
 </div>
 </div>
 </div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">analyticsql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
@@ -12567,10 +12646,10 @@ a.anchor-link {
 </div>
 </div>
 
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span>
@@ -12642,6 +12721,16 @@ a.anchor-link {
 </div>
 </div>
 
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Thank-You">Thank You<a class="anchor-link" href="#Thank-You">&#182;</a></h1><p><img src="assets/office-space-7.jpg" alt="finished"></p>
+
+</div>
+</div>
 </div></section></section>
 </div>
 </div>
