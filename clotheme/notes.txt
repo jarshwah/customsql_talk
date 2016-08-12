@@ -36,6 +36,8 @@ Expressions:
     Here we can see a query that's aggregating sales by month, which is a pretty
     standard query you'd write when managing or reporting on sales.
 
+5 mins
+
 Sales Reporting:
     Since sales are fairly universal, I've thrown together an app that tracks sales
     over a set of products. Pretty basic stuff. Group by the product category,
@@ -68,6 +70,8 @@ NotEqual:
     all field types.
 
     And we shave 30 microseconds off the time.
+
+10 min
 
 RevByQuarter:
     Milton doesn't care about categories - he wants to know what we're making.
@@ -116,6 +120,8 @@ Wizz:
     We'll need to pivot revenue for a particular group into a column, which we can do with
     a conditional expression. It's pretty bulky though, and we need two of them.
 
+15 min
+
 SUMIF:
     Excel provides a function called sumif that does exactly this. If a row matches
     the IF, it'll add the revenue to the total.
@@ -128,6 +134,8 @@ Altogether:
     Here's our final query. We're getting the revenue and sales for each quarter,
     excluding childrens clothing from the total, and showing the Victoria and
     New South Wales revenue separately.
+
+20 min
 
 Hate It!:
     Forget all of it. The investors want to know about growth.
@@ -152,3 +160,5 @@ Cursor:
     straight to SQL.
 
     The ORM is a convenience. You give up speed and power for that convenience.
+
+25 min

@@ -7,17 +7,25 @@ a talk that digs into customising SQL in Django.
 
 You should already have postgres installed and your database created.
 
-- Ensure python 3.4 is installed (some deps don't work with python 3.5)
+- Ensure python 3.4 is installed if you want to use Jupyter-Themes, otherwise 3.5
 - `cp clotheme/clotheme/_secrets.py clotheme/clotheme/secrets.py` and edit
 
 ```
 mkvirtualenv -p python34 customsql
 pip install -r requirements.txt
+```
+
+If you want to run the presentation with reveal.js:
+
+```
 pip install --pre RISE
-jt -t grade3 -T
 jupyter-nbextension install rise --py --sys-prefix
 jupyter nbextension enable rise --py --sys-prefix
+```
 
+Create the models and launch the notebook:
+
+```
 cd clotheme
 ./manage.py migrate
 ./manage.py test  # make sure everything is working
